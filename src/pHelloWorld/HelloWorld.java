@@ -35,10 +35,10 @@ public class HelloWorld extends HttpServlet {
 	    out.println("<html>");
 	    out.println("<head>");
 	   // out.println("<meta charset='utf-8'>");
-	    out.println("<title>Hello Woraあああ!</title>");
+	    out.println("<title>ハローワールド!</title>");
 	    out.println("</head>");
 	    out.println("<body>");
-	    out.println("<h1>Hello Worど?</h1>");
+	    out.println("<h1>ハローワールド!</h1>");
 	    out.println("<p>First Servlet</p>");
 	    out.println("</body></html>");
 	}
