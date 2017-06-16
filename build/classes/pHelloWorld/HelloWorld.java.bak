@@ -29,16 +29,15 @@ public class HelloWorld extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	    // TODO Auto-generated method stub
 	    PrintWriter out = response.getWriter();
 	    out.println("<html>");
 	    out.println("<head>");
-	   // out.println("<meta charset='utf-8'>");
-	    out.println("<title>Hello Woraあああ!</title>");
+	    out.println("<title>Hello World!</title>");
 	    out.println("</head>");
 	    out.println("<body>");
-	    out.println("<h1>Hello Worど?</h1>");
+	    out.println("<h1>へろーわーるど</h1>");
 	    out.println("<p>First Servlet</p>");
 	    out.println("</body></html>");
 	}
