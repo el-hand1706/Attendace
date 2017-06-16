@@ -1,26 +1,32 @@
-package pHelloWorld;
+package auth;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+/**
+ * Input.jsp画面に遷移するだけ
+ */
+
 
 /**
- * Servlet implementation class HelloWorld
+ * Servlet implementation class Input
  */
-@WebServlet("/HelloWorld")
-public class HelloWorld extends HttpServlet {
+@WebServlet("/auth_Input")
+public class Input extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
     /**
-     * Default constructor. 
+     * @see HttpServlet#HttpServlet()
      */
-    public HelloWorld() {
+    public Input() {
+        super();
         // TODO Auto-generated constructor stub
+		
     }
 
 	/**
@@ -28,19 +34,9 @@ public class HelloWorld extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-	    // TODO Auto-generated method stub
-	    PrintWriter out = response.getWriter();
-	    out.println("<html>");
-	    out.println("<head>");
-	   // out.println("<meta charset='utf-8'>");
-	    out.println("<title>Hello Woraあああ!</title>");
-	    out.println("</head>");
-	    out.println("<body>");
-	    out.println("<h1>Hello Worど?</h1>");
-	    out.println("<p>First Servlet</p>");
-	    out.println("</body></html>");
+		// Input.jsp画面へ遷移
+    	RequestDispatcher dispatch = request.getRequestDispatcher("auth/Input.jsp");
+		dispatch.forward(request, response);
 	}
 
 	/**
@@ -48,8 +44,8 @@ public class HelloWorld extends HttpServlet {
 	 */
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+    	// doGetで処理
+    	doGet(request,response);
 	}
 
 }
