@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utility.ChkInput;
 
 /**
  * Input.jspで入力した値を取得し、入力チェックを行う
@@ -46,33 +47,42 @@ public class Confirm extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//変数宣言
-		boolean chkFlag = false;
-		String mailFormat = 
-				("^[a-zA-Z0-9!#$%&'_`/=~\\*\\+\\-\\?\\^\\{\\|\\}]+" + 
-				"\\.[a-zA-Z0-9!#$%&'_`/=~\\*\\+\\-\\?\\^\\{\\|\\}]+)*+" + 
-				"(.*)@[a-zA-Z0-9][a-zA-Z0-9\\-]*(\\.[a-zA-Z0-9\\-]+)+$");
-		
-		// 文字コードセット
-		request.setCharacterEncoding("UTF8");
+		int iChkFlag = 0;
+		ChkInput cChkInput = new ChkInput();
+		final int iMailFormat = 0;
+		final int iAlphanumericFormat = 1;
+		StringBuilder sNaErrMsg = new StringBuilder("");
+		StringBuilder sAdErrMsg = new StringBuilder("");
+		StringBuilder sPaErrMsg = new StringBuilder("");
 		
 		// 呼び出し元Jspからデータ受け取り
+		String sName = request.getParameter("getName");
 		String sAddress = request.getParameter("getAddress");
 		String sPassword = request.getParameter("getPassword");
 		
-		// 入力チェック
-		// formatチェック
-		chkFlag = chkFormat(sAddress, mailFormat);
-		// lengthチェック
-		chkFlag = chkLength(sAddress, 0, 64);
-		chkFlag = chkLength(sPassword, 4, 16);
-		
+		// 入力チェック		
+		iChkFlag += cChkInput.chkFormat(sAddress, iMailFormat, sAdErrMsg);
+		iChkFlag += cChkInput.chkFormat(sPassword, iAlphanumericFormat, sPaErrMsg);
+		iChkFlag += cChkInput.chkLength(sName, 2, 20, sNaErrMsg);
+		iChkFlag += cChkInput.chkLength(sAddress, 2, 64, sAdErrMsg);
+		iChkFlag += cChkInput.chkLength(sPassword, 4, 16, sPaErrMsg);
 		
 		// 入力した値が間違っていたらInput.jsp画面へ戻る
-		if(chkFlag == false){
+		if(iChkFlag != 0){
+			// 呼び出し先Jspに渡すデータセット
+			request.setAttribute("sName", sName);
+			request.setAttribute("sAddress", sAddress);
+			request.setAttribute("sPassword", sPassword);
+			request.setAttribute("iFlag", 1);
+			request.setAttribute("sNaErrMsg", sNaErrMsg);
+			request.setAttribute("sAdErrMsg", sAdErrMsg);
+			request.setAttribute("sPaErrMsg", sPaErrMsg);
+						
 			RequestDispatcher dispatch = request.getRequestDispatcher("auth/Input.jsp");
 			dispatch.forward(request, response);
 		}else{
 			// 呼び出し先Jspに渡すデータセット
+			request.setAttribute("sName", sName);
 			request.setAttribute("sAddress", sAddress);
 			request.setAttribute("sPassword", sPassword);
 			
@@ -82,35 +92,6 @@ public class Confirm extends HttpServlet {
 		}
 	}
 	
-	/**
-	 * 文字列がフォーマット通りになっているかチェックする
-	 * @param sStr			チェックする文字列
-	 * @param chkFormat		フォーマット文字列
-	 * @return boolean		問題なければtrueを返す
-	 */
-	boolean chkFormat(String sStr, String sFormat){
-		if( sStr.matches(sFormat) ) {
-            return true;
-        }
-        else {
-            return false;
-        }
-	}
-	
-	/**
-	 * 文字列の長さをチェック
-	 * @param sStr  		チェックする文字列
-	 * @param iMinLength 	文字列の最小長さ
-	 * @param iMaxLength 	文字列の最大長さ
-	 * @return boolean		問題なければtrueを返す
-	 */
-	boolean chkLength(String sStr, int iMinLength, int iMaxLength){
-		if(sStr.length() >= iMaxLength && sStr.length() >= iMinLength) {
-            return true;
-        }
-        else {
-            return false;
-        }
-	}
+
 	
 }
