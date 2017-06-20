@@ -1,6 +1,7 @@
-package auth;
+package update;
 
 import java.io.IOException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,19 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
 /**
- * Servlet implementation class Auth
+ * Servlet implementation class Table
  */
-@WebServlet("/auth_Auth")
-public class Auth extends HttpServlet {
+@WebServlet("/update_Table")
+public class Table extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Auth() {
+    public Table() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,10 +29,9 @@ public class Auth extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Input.jsp画面へ遷移
-		request.setAttribute("sErrMsg", "");	
-    	RequestDispatcher dispatch = request.getRequestDispatcher("auth/Auth.jsp");
-    	dispatch.forward(request, response);	
+		// TODO Auto-generated method stub
+		RequestDispatcher dispatch = request.getRequestDispatcher("update/table.jsp");
+		dispatch.forward(request,response);
 	}
 
 	/**
@@ -44,4 +42,5 @@ public class Auth extends HttpServlet {
 		// doGetで処理
 		doGet(request, response);
 	}
+
 }

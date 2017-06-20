@@ -8,7 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import utility.MyQuery;
+import javax.servlet.http.HttpSession;
+import utility.CipherManager;
 
 /**
  * Input.jsp画面に遷移するだけ
@@ -36,8 +37,16 @@ public class Input extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	// セッションを開始
+    	HttpSession session = request.getSession();
+    			
+    	// セキュリティトークン作成
+    	String sToken = CipherManager.getCsrfToken(); 	// セキュリティトークンの取得
+    	session.setAttribute("token", sToken);			// セッション
+    	
     	// Input.jsp画面へ遷移
-    	request.setAttribute("iFlag", 0);
+    	request.setAttribute("sErrMsg", "");
+    	request.setAttribute("sToken", sToken);
     	RequestDispatcher dispatch = request.getRequestDispatcher("auth/Input.jsp");
 		dispatch.forward(request, response);
 	}

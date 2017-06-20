@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import utility.CipherManager;
 //import utility.Encryption;
@@ -57,23 +58,24 @@ public class Completed extends HttpServlet {
 		// 文字コードセット
 		request.setCharacterEncoding("UTF8");
 		
+		// セッション開始
+		HttpSession session = request.getSession();
+		
 		// 変数宣言
-		StringBuilder sNaErrMsg = new StringBuilder("");
-		StringBuilder sAdErrMsg = new StringBuilder("");
-		StringBuilder sPaErrMsg = new StringBuilder("");
 		String sSql = "";
 		Tbl_Account tbl_account = new Tbl_Account();
 		int iUid = 0;
 		String sTitle = "";
 		String sEncryption = "";
+		String sChkToken = (String) session.getAttribute("sToken");
 		
 		// 呼び出し元jspから値を受け取る
 		String sName = request.getParameter("getName");
 		String sAddress = request.getParameter("getAddress");
 		String sPassword = request.getParameter("getPassword");
+		String sToken = request.getParameter("getToken");
 		
 		// パスワードを暗号化
-//		sEncryption = Encryption.doEncryption(sPassword);
 		try {
 			sEncryption = CipherManager.encrypt(sPassword);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
@@ -81,10 +83,9 @@ public class Completed extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
-		
-		// 確認画面の実行ボタンor戻るボタン
-		if(request.getParameter("do") != null){
-			
+		// セキュリティトークン確認
+		if(sToken.equals(sChkToken)){
+			// 一致した場合
 			try{
 				// DB接続
 				if(MyQuery.connectDb() != 0){
@@ -102,7 +103,6 @@ public class Completed extends HttpServlet {
 				sSql = sSql.concat("; "								);
 				// SQL実行
 				tbl_account = MyQuery.selectTbl_Account(sSql);
-//				if(tbl_account == null){
 				if(tbl_account.iGetFlag != 1){
 					// UID取得に失敗したときの処理
 					throw new SQLException();
@@ -112,11 +112,12 @@ public class Completed extends HttpServlet {
 				
 				// Tbl_Account にデータを挿入
 				sSql = "";
-				sSql = sSql.concat("insert into "																								); 
-				sSql = sSql.concat("    tbl_account (uid, name, address, password, created) "													);
-				sSql = sSql.concat("values "																									);
-				sSql = sSql.concat("    (" + iUid + ", \"" + sName + "\", \"" + sAddress + "\", \"" + sEncryption + "\", current_timestamp())"	);
-				sSql = sSql.concat("; "																											);
+				sSql = sSql.concat("insert into "																													); 
+				sSql = sSql.concat("    tbl_account (uid, name, address, password, created, modified) "																);
+				sSql = sSql.concat("values "																														);
+				sSql = sSql.concat("    (" + iUid + ", \"" + sName + "\", \"" + sAddress + "\", \"" + sEncryption + "\", current_timestamp(), current_timestamp())"	);
+				sSql = sSql.concat("; "																																);
+				System.out.println(sSql);
 				if(MyQuery.insertTbl_Account(sSql) != 0){
 					// Insertに失敗したときの処理
 					throw new SQLException();
@@ -141,24 +142,13 @@ public class Completed extends HttpServlet {
 			request.setAttribute("sTitle", sTitle);
 			RequestDispatcher dispatch = request.getRequestDispatcher("auth/Completed.jsp");
 			dispatch.forward(request, response);
-		}else if(request.getParameter("back") != null){
-			// 値をセットしてInput.jsp に戻る
-			request.setAttribute("iFlag", 1);
-			request.setAttribute("sName", sName);
-			request.setAttribute("sAddress", sAddress);
-			request.setAttribute("sPassword", sPassword);
-			request.setAttribute("sNaErrMsg", sNaErrMsg);
-			request.setAttribute("sAdErrMsg", sAdErrMsg);
-			request.setAttribute("sPaErrMsg", sPaErrMsg);
-			
-			RequestDispatcher dispatch = request.getRequestDispatcher("auth/Input.jsp");
-			dispatch.forward(request,response);
 		}else{
-			// Completed.jsp にページ遷移
-						RequestDispatcher dispatch = request.getRequestDispatcher("auth/Completed.jsp");
-						dispatch.forward(request, response);
+			// セキュリティートークンが一致しない場合
+			request.setAttribute("sErrMsg", "セキュリティートークンが一致しない");
+    		request.setAttribute("sAddress", "");
+    		request.setAttribute("sPassword", "");	
+	    	RequestDispatcher dispatch = request.getRequestDispatcher("auth/Auth.jsp");
+	    	dispatch.forward(request, response);	
 		}
-		
 	}
-
 }

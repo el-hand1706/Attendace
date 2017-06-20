@@ -4,16 +4,14 @@
 	// 変数宣言
 	String sAddress = "";
  	String sPassword = "";
- 	String sErrMsg = "";
 	
 	// servretのデータ受け取り
 	request.setCharacterEncoding("UTF8");
-	int iFlag = (int) request.getAttribute("iFlag");
+	String sErrMsg = (String) request.getAttribute("sErrMsg");
 	
-	if(iFlag == 1){
+	if(!sErrMsg.equals("")){
 		sAddress = (String) request.getAttribute("sAddress");
 		sPassword = (String) request.getAttribute("sPassword");
-		sErrMsg = "存在しません";
 	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -24,9 +22,7 @@
 	</head>
 	<body>
 		<h1>認証画面</h1>
-		<form action="/Attendance/auth_Input" method="post">
-			<input type="submit" name="new" value="新規アカウント作成" />
-		</form>
+		<a href="/Attendance/auth_Input">新規アカウント作成</a>
 		<br/>
 		<form action="/Attendance/input_Menu" method="post">
 			<p>ADDRESS</p>

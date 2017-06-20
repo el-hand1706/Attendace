@@ -3,7 +3,7 @@
 <%
 	// Servletのデータ受け取り
 	request.setCharacterEncoding("UTF8");
-	int iFlag = (int) request.getAttribute("iFlag");
+	String sToken  = (String) request.getAttribute("sToken");
 	
 	String sName = "";
 	String sAddress = "";
@@ -11,8 +11,9 @@
 	StringBuilder sNaErrMsg = new StringBuilder("");
 	StringBuilder sAdErrMsg = new StringBuilder("");
 	StringBuilder sPaErrMsg = new StringBuilder("");
+	String sErrMsg = (String) request.getAttribute("sErrMsg");
 	
-	if(iFlag == 1){
+	if(!sErrMsg.equals("")){
 		sName = (String) request.getAttribute("sName");
 		sAddress = (String) request.getAttribute("sAddress");
 		sPassword = (String) request.getAttribute("sPassword");
@@ -46,6 +47,8 @@
 		<p><%=sPaErrMsg%></p>
 		<br />
 		<br />
+		<p><%=sErrMsg%></p>
+		<input type="hidden" name="getToken" value="<%=sToken%>" />
 		<input type="submit" value="実行" />
 	</form>
 </body>

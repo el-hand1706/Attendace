@@ -13,7 +13,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class CipherManager {
 	
-	private static String csrfToken = "";
 	private static final String KEY = "YKo83n14SWf7o8G5";
     private static final String ALGORITHM = "AES";
     private static int TOKEN_LENGTH = 16;//16*2=32バイト
@@ -25,7 +24,7 @@ public class CipherManager {
      * セキュリティトークン作成
      * @return
      */
-    public static void getCsrfToken() {
+    public static String getCsrfToken() {
         byte token[] = new byte[TOKEN_LENGTH];
         StringBuffer buf = new StringBuffer();
         SecureRandom random = null;
@@ -41,8 +40,7 @@ public class CipherManager {
         } catch (NoSuchAlgorithmException e) {
         	e.printStackTrace();
         }
-        csrfToken = buf.toString();
-        System.out.println(csrfToken);
+        return buf.toString();
     }
     
     /**

@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import auth.Tbl_Account;
 import utility.CipherManager;
@@ -51,6 +52,9 @@ public class Menu extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	// 文字コードセット
     	request.setCharacterEncoding("UTF8");
+    	
+    	// セッション開始
+    	HttpSession session = request.getSession();
 
     	// 変数宣言
     	String sAddress = request.getParameter("getAddress");
@@ -58,7 +62,7 @@ public class Menu extends HttpServlet {
     	String sSql = "";
     	Tbl_Account tbl_account = new Tbl_Account();
     	String sEncryption = "";
-//    	sEncryption = Encryption.doEncryption(sPassword);
+    	
     	try {
 			sEncryption = CipherManager.encrypt(sPassword);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
@@ -66,7 +70,6 @@ public class Menu extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
-
 
     	try{
 			// DB接続
@@ -84,7 +87,7 @@ public class Menu extends HttpServlet {
 			sSql = sSql.concat("; "											);
 			// SQL実行
 			tbl_account = MyQuery.selectTbl_Account(sSql);
-//			if(tbl_account == null){
+
 			if(tbl_account.iGetFlag != 1){
 				// UID取得に失敗したときの処理
 				throw new SQLException();
@@ -99,12 +102,14 @@ public class Menu extends HttpServlet {
 				//DB切断に失敗したときの処理
 				throw new SQLException();
 			};
+			
+			// セッションにパスワードをセット
+			session.setAttribute("sChkPass", sEncryption);
 
 		}catch(SQLException e){
 			System.out.println("認証失敗");
 			// Auth.jsp　に戻る
-    		request.setAttribute("iFlag", 1);
-				request.setAttribute("err_msg", "SQL発行に失敗しました");
+			request.setAttribute("sErrMsg", "SQL発行に失敗しました");
     		request.setAttribute("sAddress", sAddress);
     		request.setAttribute("sPassword", sPassword);
     		RequestDispatcher dispatch = request.getRequestDispatcher("auth/Auth.jsp");

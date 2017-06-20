@@ -8,6 +8,9 @@
 	</head>
 	<body>
 		<h1>メニュー画面</h1>
+		<a href="/Attendance/input_SetTime">新規アカウント作成</a>
+		<a href="/Attendance/input_SetTime">新規アカウント作成</a>
+		<a href="/Attendance/update_Table">新規アカウント作成</a>
 		<form action="/Attendance/auth_Auth" method="post">
 			<input type="submit" value="戻る" />
 		</form>

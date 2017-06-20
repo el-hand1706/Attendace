@@ -8,7 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import utility.ChkInput;
+
 
 /**
  * Input.jspで入力した値を取得し、入力チェックを行う
@@ -59,6 +61,7 @@ public class Confirm extends HttpServlet {
 		String sName = request.getParameter("getName");
 		String sAddress = request.getParameter("getAddress");
 		String sPassword = request.getParameter("getPassword");
+		String sToken = request.getParameter("getToken");
 		
 		// 入力チェック		
 		iChkFlag += cChkInput.chkFormat(sAddress, iMailFormat, sAdErrMsg);
@@ -73,7 +76,7 @@ public class Confirm extends HttpServlet {
 			request.setAttribute("sName", sName);
 			request.setAttribute("sAddress", sAddress);
 			request.setAttribute("sPassword", sPassword);
-			request.setAttribute("iFlag", 1);
+			request.setAttribute("sErrMsg", "入力項目に間違いがあります。");
 			request.setAttribute("sNaErrMsg", sNaErrMsg);
 			request.setAttribute("sAdErrMsg", sAdErrMsg);
 			request.setAttribute("sPaErrMsg", sPaErrMsg);
@@ -85,6 +88,7 @@ public class Confirm extends HttpServlet {
 			request.setAttribute("sName", sName);
 			request.setAttribute("sAddress", sAddress);
 			request.setAttribute("sPassword", sPassword);
+			request.setAttribute("sToken", sToken);
 			
 			// Confirm.jsp　画面へ遷移
 			RequestDispatcher dispatch = request.getRequestDispatcher("auth/Confirm.jsp");

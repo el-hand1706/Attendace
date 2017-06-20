@@ -6,6 +6,7 @@
 	String sName = (String) request.getAttribute("sName");
 	String sAddress = (String) request.getAttribute("sAddress");
 	String sPassword = (String) request.getAttribute("sPassword");
+	String sToken = (String) request.getAttribute("sToken");
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -30,7 +31,8 @@
 			<input type="hidden" name="getPassword" value="<%=sPassword%>" />
 			<br />
 			<br />
-			<input type="submit" name="do" value="実行" /><input type="submit" name="back" value="戻る" />
+			<input type="hidden" value="<%=sToken%>" /> 
+			<input type="submit" name="do" value="実行" /><button type="button" onclick="history.back()">戻る</button>
 		</form>
 	</body>
 </html>
