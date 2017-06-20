@@ -3,6 +3,7 @@ package auth;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -24,6 +25,7 @@ import utility.CipherManager;
 @WebServlet("/auth_Auth")
 public class Auth extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static int TOKEN_LENGTH = 16;//16*2=32バイト
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -38,9 +40,13 @@ public class Auth extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	// Input.jsp画面へ遷移
+
+		String token = getCsrfToken(); // セキュリティトークンの取得
+			// Input.jsp画面へ遷移
     	request.setAttribute("iFlag", 0);
 			request.setAttribute("err_msg", "");
+			equest.setAttribute("token", "token"); // hiddenにいれる
+			// todo:セッションにいれる
     	RequestDispatcher dispatch = request.getRequestDispatcher("auth/Auth.jsp");
     	dispatch.forward(request, response);
 	}
@@ -53,5 +59,26 @@ public class Auth extends HttpServlet {
 		// doGetで処理
 		doGet(request, response);
 	}
+
+
+	public static String getCsrfToken() {
+    byte token[] = new byte[TOKEN_LENGTH];
+    StringBuffer buf = new StringBuffer();
+    SecureRandom random = null;
+
+    try {
+      random = SecureRandom.getInstance("SHA1PRNG");
+      random.nextBytes(token);
+
+      for (int i = 0; i < token.length; i++) {
+        buf.append(String.format("%02x", token[i]));
+      }
+
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+
+    return buf.toString();
+  }
 
 }
