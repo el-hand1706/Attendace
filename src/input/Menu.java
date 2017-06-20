@@ -26,7 +26,7 @@ import utility.MyQuery;
 @WebServlet("/input_Menu")
 public class Menu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -51,7 +51,7 @@ public class Menu extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	// 文字コードセット
     	request.setCharacterEncoding("UTF8");
-    	
+
     	// 変数宣言
     	String sAddress = request.getParameter("getAddress");
     	String sPassword = request.getParameter("getPassword");
@@ -66,18 +66,18 @@ public class Menu extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
-    	
-    			
+
+
     	try{
 			// DB接続
 			if(MyQuery.connectDb() != 0){
 				//DB接続に失敗したときの処理
 				throw new SQLException();
 			};
-			
+
 			// 入力したアカウントが存在するか確認
 			sSql = "";
-			sSql = sSql.concat("select * "									); 
+			sSql = sSql.concat("select * "									);
 			sSql = sSql.concat("from tbl_account "							);
 			sSql = sSql.concat("where address = \"" + sAddress + "\" "		);
 			sSql = sSql.concat("and   password = \"" + sEncryption + "\" "	);
@@ -93,23 +93,24 @@ public class Menu extends HttpServlet {
 	    		RequestDispatcher dispatch = request.getRequestDispatcher("input/Menu.jsp");
 	    		dispatch.forward(request, response);
 			}
-			
+
 			// DB切断
 			if(MyQuery.closeDb() != 0){
 				//DB切断に失敗したときの処理
 				throw new SQLException();
 			};
-			
+
 		}catch(SQLException e){
 			System.out.println("認証失敗");
 			// Auth.jsp　に戻る
     		request.setAttribute("iFlag", 1);
+				request.setAttribute("err_msg", "SQL発行に失敗しました");
     		request.setAttribute("sAddress", sAddress);
     		request.setAttribute("sPassword", sPassword);
     		RequestDispatcher dispatch = request.getRequestDispatcher("auth/Auth.jsp");
     		dispatch.forward(request, response);
 		}catch(Exception e){
-			
+
 		}
 	}
 }
