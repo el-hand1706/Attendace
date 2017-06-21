@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import tbl.Tbl_Account;
 import utility.CipherManager;
 //import utility.Encryption;
 import utility.MyQuery;
-import auth.Tbl_Account;
 
 /**
  * Confirm.jspから値を受け取り、データベースへ書き込む
@@ -118,7 +118,7 @@ public class Completed extends HttpServlet {
 				sSql = sSql.concat("    (" + iUid + ", \"" + sName + "\", \"" + sAddress + "\", \"" + sEncryption + "\", current_timestamp(), current_timestamp())"	);
 				sSql = sSql.concat("; "																																);
 				System.out.println(sSql);
-				if(MyQuery.insertTbl_Account(sSql) != 0){
+				if(MyQuery.executeSql(sSql) != 0){
 					// Insertに失敗したときの処理
 					throw new SQLException();
 				}

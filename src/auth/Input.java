@@ -42,7 +42,7 @@ public class Input extends HttpServlet {
     			
     	// セキュリティトークン作成
     	String sToken = CipherManager.getCsrfToken(); 	// セキュリティトークンの取得
-    	session.setAttribute("token", sToken);			// セッション
+    	session.setAttribute("sToken", sToken);			// セッション
     	
     	// Input.jsp画面へ遷移
     	request.setAttribute("sErrMsg", "");

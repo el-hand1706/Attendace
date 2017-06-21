@@ -30,7 +30,7 @@ public class Table extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher dispatch = request.getRequestDispatcher("update/table.jsp");
+		RequestDispatcher dispatch = request.getRequestDispatcher("update/Table.jsp");
 		dispatch.forward(request,response);
 	}
 

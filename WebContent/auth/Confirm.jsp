@@ -31,7 +31,7 @@
 			<input type="hidden" name="getPassword" value="<%=sPassword%>" />
 			<br />
 			<br />
-			<input type="hidden" value="<%=sToken%>" /> 
+			<input type="hidden" name="getToken" value="<%=sToken%>" /> 
 			<input type="submit" name="do" value="実行" /><button type="button" onclick="history.back()">戻る</button>
 		</form>
 	</body>
