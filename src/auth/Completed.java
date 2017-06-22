@@ -3,6 +3,7 @@ package auth;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.crypto.BadPaddingException;
@@ -16,9 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import tbl.Tbl_Account;
 import utility.CipherManager;
-//import utility.Encryption;
 import utility.MyQuery;
 
 /**
@@ -63,11 +62,11 @@ public class Completed extends HttpServlet {
 		
 		// 変数宣言
 		String sSql = "";
-		Tbl_Account tbl_account = new Tbl_Account();
 		int iUid = 0;
 		String sTitle = "";
 		String sEncryption = "";
 		String sChkToken = (String) session.getAttribute("sToken");
+		ResultSet rs;
 		
 		// 呼び出し元jspから値を受け取る
 		String sName = request.getParameter("getName");
@@ -95,19 +94,23 @@ public class Completed extends HttpServlet {
 				
 				// UIDの最大値を取得し今回登録するUIDを決定する
 				sSql = "";
-				sSql = sSql.concat("select * "						); 
-				sSql = sSql.concat("from tbl_account "				);
-				sSql = sSql.concat("where "							);
-				sSql = sSql.concat("    uid = (select max(uid) "	);
-				sSql = sSql.concat("          from tbl_account) "	);
-				sSql = sSql.concat("; "								);
-				// SQL実行
-				tbl_account = MyQuery.selectTbl_Account(sSql);
-				if(tbl_account.iGetFlag != 1){
-					// UID取得に失敗したときの処理
-					throw new SQLException();
+				sSql = sSql.concat("select uid "					    ); 
+				sSql = sSql.concat("  from tbl_account "				);
+				sSql = sSql.concat(" where "							);
+				sSql = sSql.concat("   uid = (select max(uid) "	        );
+				sSql = sSql.concat("            from tbl_account) "	    );
+				sSql = sSql.concat("; "								    );
+				rs = MyQuery.selectSql(sSql);
+				if(rs != null){
+					// 結果を取得
+		            while(rs.next()){
+		            	iUid = rs.getInt("uid");
+		            }
+		            // 次のUidをセット
+		            iUid = iUid + 1;
 				}else{
-					iUid = tbl_account.uid + 1;
+					// selectに失敗したときの処理
+					throw new Exception();
 				}
 				
 				// Tbl_Account にデータを挿入

@@ -15,17 +15,17 @@
 		<p>名前 : <%=sPara.get("sName") %></p>
 		<p>日付 : <%=sPara.get("sCurrentDate") %></p>
 		<br />
-		<% if(sPara.get("sComeTime").equals("")){%>
-		<a href="/Attendance/input_SetTime?&sFlag=1">出勤</a>  
-		<%}else{ %> 
-		出勤
-		<%} %> 	
+<% 		if(sPara.get("sComeTime").equals("")){		%>
+			<a href="/Attendance/input_SetTime?&sFlag=1">出勤</a>  
+<%		}else{ 		%> 
+			出勤
+<%		} 			%> 	
 		<br />
-		<% if(sPara.get("sReturnTime").equals("")){%>
-		<a href="/Attendance/input_SetTime?sFlag=2">退勤</a>
-		<%}else{ %> 
-		退勤
-		<%} %> 	
+<% 		if(sPara.get("sReturnTime").equals("")){	%>
+			<a href="/Attendance/input_SetTime?sFlag=2">退勤</a>
+<%		}else{ 		%> 
+			退勤
+<%		} 			%> 	
 		<br />
 		<br />
 		<a href="/Attendance/update_Table">一覧画面</a>
@@ -33,8 +33,6 @@
 		<br />
 		<p>出勤時間 : <%=sPara.get("sComeTime") %></p>
 		<p>退勤時間 : <%=sPara.get("sReturnTime") %></p>
-		<form action="/Attendance/auth_Auth" method="post">
-			<input type="submit" value="戻る" />
-		</form>
+		<button type="button" onclick="history.back()">戻る</button>
 	</body>
 </html>
