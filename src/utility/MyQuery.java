@@ -8,9 +8,6 @@ import java.sql.SQLException;
 
 import com.mysql.jdbc.Statement;
 
-
-
-
 public class MyQuery{
 	
 	private static Connection con = null;

@@ -2,9 +2,13 @@
     pageEncoding="UTF-8"%>
 <%
 	String id = (String)request.getAttribute("id");
+	int iYear = (int)request.getAttribute("year");
+	int iMonth = (int)request.getAttribute("month");
+	int iDay = (int)request.getAttribute("day");
 	String cometime = (String)request.getAttribute("cometime");
  	String returntime = (String)request.getAttribute("returntime");
-%>
+ 	String sErrMsg = (String)request.getAttribute("errmsg");
+ %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -22,6 +26,9 @@
 			<input type="text" name="returntime" value="<%=returntime%>" />
 			<br/>
 			<br/>
+			<input type="hidden" name="year" value="<%=iYear%>" />
+			<input type="hidden" name="month" value="<%=iMonth%>" />
+			<input type="hidden" name="day" value="<%=iDay%>" />
 			<input type="submit" value="実行" /><button type="button" onclick="history.back()">戻る</button>
 		</form>
 	</body>

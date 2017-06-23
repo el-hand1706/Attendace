@@ -3,6 +3,8 @@ package update;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
+//import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,6 +35,7 @@ public class Table extends HttpServlet {
     	int iUid = (int)session.getAttribute("iUid");
     	String sSql = "";
     	ArrayList<Tbl_PrintTable> array_printtable = new ArrayList<Tbl_PrintTable>();
+//    	HashMap<String,Integer> hmDate = new HashMap<String,Integer>();
     	
     	ResultSet rs;
     	
@@ -46,7 +49,8 @@ public class Table extends HttpServlet {
 			// menu画面に表示する名前、出退勤時間を取得
 			sSql = "";
 			sSql = sSql.concat("select id, "                                                                       );
-			sSql = sSql.concat("    concat(month, '/', day) as days, "                                             );
+			sSql = sSql.concat("    cast(month as signed) as month, "                                              );
+			sSql = sSql.concat("    cast(day as signed) as day, "                                                  );
 			sSql = sSql.concat("	case weekday(concat(year, '/', month, '/', day)) "                             );                                                                          
 			sSql = sSql.concat("	when 0 then '月' "                                                             );
 			sSql = sSql.concat("	when 1 then '火' "                                                             );
@@ -56,8 +60,8 @@ public class Table extends HttpServlet {
 			sSql = sSql.concat("	when 5 then '土' "                                                             );
 			sSql = sSql.concat("	when 6 then '日' "                                                             );
 			sSql = sSql.concat("	end as weekdays, "                                                             );
-			sSql = sSql.concat("	ifnull(date_format(cometime, '%h:%i:%s'),'') as cometimes, "                   );        
-			sSql = sSql.concat("	ifnull(date_format(returntime, '%h:%i:%s'),'') as returntimes "                );        
+			sSql = sSql.concat("	ifnull(date_format(cometime, '%H:%i:%s'),'') as cometimes, "                   );        
+			sSql = sSql.concat("	ifnull(date_format(returntime, '%H:%i:%s'),'') as returntimes "                );        
 			sSql = sSql.concat("from tbl_attendance "                                                              );
 			sSql = sSql.concat("where uid = " + iUid + " "                                                         );
 			sSql = sSql.concat("and year = date_format(current_timestamp(), '%Y') "                                );
@@ -67,12 +71,14 @@ public class Table extends HttpServlet {
 			System.out.println(sSql);
 			// SQL実行
 			rs = MyQuery.selectSql(sSql);
-			if(rs != null){
-				// 結果を取得
+			if(rs.next() != false){
+				// 
+				rs.beforeFirst();
 	            while(rs.next()){
 	            	Tbl_PrintTable  tbl_printtable = new Tbl_PrintTable();
 	            	tbl_printtable.id = rs.getInt("id");
-	            	tbl_printtable.days = rs.getString("days");
+	            	tbl_printtable.months = rs.getInt("month");
+	            	tbl_printtable.days = rs.getInt("day");
 	            	tbl_printtable.weekdays = rs.getString("weekdays");
 	            	tbl_printtable.cometimes = rs.getString("cometimes");
 	            	tbl_printtable.returntimes = rs.getString("returntimes");
@@ -90,6 +96,11 @@ public class Table extends HttpServlet {
 			};
 			
 			// jspに渡す値をセット
+			Calendar cal = Calendar.getInstance();	
+//			hmDate.put("year", cal.get(Calendar.YEAR));
+//			hmDate.put("month", cal.get(Calendar.MONTH) + 1);
+			request.setAttribute("year", cal.get(Calendar.YEAR));
+			request.setAttribute("month", cal.get(Calendar.MONTH) + 1);
 			request.setAttribute("array_printtable", array_printtable);
 			RequestDispatcher dispatch = request.getRequestDispatcher("update/Table.jsp");
 			dispatch.forward(request,response);

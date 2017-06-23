@@ -1,6 +1,7 @@
 package auth;
 
 import java.io.IOException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +32,7 @@ public class Auth extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Input.jsp画面へ遷移
-		request.setAttribute("sErrMsg", "");	
+    	request.setAttribute("sErrMsg", "");	
     	RequestDispatcher dispatch = request.getRequestDispatcher("auth/Auth.jsp");
     	dispatch.forward(request, response);	
 	}

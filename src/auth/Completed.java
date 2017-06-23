@@ -57,6 +57,7 @@ public class Completed extends HttpServlet {
 		// 文字コードセット
 		request.setCharacterEncoding("UTF8");
 		
+		Integer.parseInt("1");
 		// セッション開始
 		HttpSession session = request.getSession();
 		
