@@ -115,6 +115,7 @@ public class Menu extends HttpServlet {
 				sSql = sSql.concat("   and month = date_format(current_timestamp(), '%m') "              );
 				sSql = sSql.concat("   and day   = date_format(current_timestamp(), '%d') "              );
 				sSql = sSql.concat("   and uid = " + iUid 	                                             );
+				sSql = sSql.concat("   and delflag = 0 "	                                             );
 				sSql = sSql.concat("; "											                         );
 				// SQL実行
 				rs = MyQuery.selectSql(sSql);
@@ -160,7 +161,8 @@ public class Menu extends HttpServlet {
 					sSql = sSql.concat("				month, "                        );
 					sSql = sSql.concat("				day, "                          );
 					sSql = sSql.concat("				created, "                      );
-					sSql = sSql.concat("				modified) "						);
+					sSql = sSql.concat("				modified, "		    			);
+					sSql = sSql.concat("				delflag) "						);
 					sSql = sSql.concat("values "										);
 					sSql = sSql.concat("    (" + iId + ", "                             );
 					sSql = sSql.concat("     " + iUid + " , "                );
@@ -168,7 +170,8 @@ public class Menu extends HttpServlet {
 					sSql = sSql.concat("     date_format(current_timestamp(), '%m'), "  );
 					sSql = sSql.concat("     date_format(current_timestamp(), '%d'), "  );
 					sSql = sSql.concat("     current_timestamp(), "                     );
-					sSql = sSql.concat("     current_timestamp()) "	                    );
+					sSql = sSql.concat("     current_timestamp(), "	                    );
+					sSql = sSql.concat("	 0 ) "						                );
 					sSql = sSql.concat("; "												);
 					System.out.println(sSql);
 					if(MyQuery.executeSql(sSql) != 0){
@@ -187,12 +190,12 @@ public class Menu extends HttpServlet {
 				sPara.put("iFlag","0");
 				sPara.put("sName", sName);
 				if(tbl_attendance.cometime == null){
-					sPara.put("sComeTime", "");
+					sPara.put("sComeTime", "----/--/-- --:--:--");
 				}else{
 					sPara.put("sComeTime", tbl_attendance.cometime);
 				}
 				if(tbl_attendance.returntime == null){
-					sPara.put("sReturnTime", "");
+					sPara.put("sReturnTime", "----/--/-- --:--:--");
 				}else{
 					sPara.put("sReturnTime", tbl_attendance.returntime);
 				}

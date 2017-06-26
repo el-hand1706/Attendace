@@ -87,7 +87,8 @@ public class Change extends HttpServlet {
 				sSql = sSql.concat("				month, "                        );
 				sSql = sSql.concat("				day, "                          );
 				sSql = sSql.concat("				created, "                      );
-				sSql = sSql.concat("				modified) "						);
+				sSql = sSql.concat("				modified, "						);
+				sSql = sSql.concat("				delflag ) "						);
 				sSql = sSql.concat("values "										);
 				sSql = sSql.concat("    (" + isetId + ", "                          );
 				sSql = sSql.concat("     " + iUid + " , "                           );
@@ -95,7 +96,8 @@ public class Change extends HttpServlet {
 				sSql = sSql.concat("     lpad(" + iMonth + ", 2, '0'), "            );
 				sSql = sSql.concat("     lpad(" + iDay   + ", 2, '0'), "            );
 				sSql = sSql.concat("     current_timestamp(), "                     );
-				sSql = sSql.concat("     current_timestamp()) "	                    );
+				sSql = sSql.concat("     current_timestamp(), "	                    );
+				sSql = sSql.concat("	 0 ) "						);
 				sSql = sSql.concat("; "												);
 				System.out.println(sSql);
 				if(MyQuery.executeSql(sSql) != 0){
@@ -142,7 +144,7 @@ public class Change extends HttpServlet {
 			request.setAttribute("day", iDay);
 			request.setAttribute("cometime", sPara.get("cometime"));
 	    	request.setAttribute("returntime", sPara.get("returntime"));
-	    	request.setAttribute("errmsg", "");
+	    	request.setAttribute("errmsg", " ");
 			RequestDispatcher dispatch = request.getRequestDispatcher("update/Change.jsp");
 			dispatch.forward(request, response);
     		

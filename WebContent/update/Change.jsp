@@ -29,6 +29,7 @@
 			<input type="hidden" name="year" value="<%=iYear%>" />
 			<input type="hidden" name="month" value="<%=iMonth%>" />
 			<input type="hidden" name="day" value="<%=iDay%>" />
+			<p><%=sErrMsg %><p>
 			<input type="submit" value="実行" /><button type="button" onclick="history.back()">戻る</button>
 		</form>
 	</body>

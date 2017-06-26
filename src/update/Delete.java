@@ -2,8 +2,6 @@ package update;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-//import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,24 +16,37 @@ import utility.GetData;
 import utility.MyQuery;
 
 /**
- * Servlet implementation class Table
+ * Servlet implementation class Delete
  */
-@WebServlet("/update_Table")
-public class Table extends HttpServlet {
+@WebServlet("/update_Delete")
+public class Delete extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Delete() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッション開始
+		// セッションを開始
     	HttpSession session = request.getSession();
     	
-    	// 変数宣言
+    	// 値を取得
+    	int igetId =  Integer.parseInt(request.getParameter("id"));
     	int iUid = (int)session.getAttribute("iUid");
+    	int iYear = Integer.parseInt(request.getParameter("year"));
+		int iMonth = Integer.parseInt(request.getParameter("month"));
     	ArrayList<Tbl_PrintTable> array_printtable = new ArrayList<Tbl_PrintTable>();
-//    	HashMap<String,Integer> hmDate = new HashMap<String,Integer>();
     	
+    	// 変数宣言
+    	String sSql = "";
     	
     	try{
     		// DB接続
@@ -43,26 +54,36 @@ public class Table extends HttpServlet {
 				//DB接続に失敗したときの処理
 				throw new Exception();
 			};
+				
+			// Tbl_Attendance にデータを挿入
+			sSql = "";
+			sSql = sSql.concat("update tbl_attendance "							);
+			sSql = sSql.concat("   set delflag = 1 "                            );
+			sSql = sSql.concat(" where id = " + igetId                          );
+			System.out.println(sSql);
+			if(MyQuery.executeSql(sSql) != 0){
+				// Insertに失敗したときの処理
+				throw new Exception();
+			}
 			
 			// table表示するデータを取得
 			array_printtable = GetData.getTbl_PrintTable(iUid);
 			
 			// DB切断
 			if(MyQuery.closeDb() != 0){
-				//DB切断に失敗したときの処理
+				// DB切断に失敗したときの処理
 				throw new Exception();
-			};
+			}
 			
 			// jspに渡す値をセット
-			Calendar cal = Calendar.getInstance();	
 //			hmDate.put("year", cal.get(Calendar.YEAR));
 //			hmDate.put("month", cal.get(Calendar.MONTH) + 1);
-			request.setAttribute("year", cal.get(Calendar.YEAR));
-			request.setAttribute("month", cal.get(Calendar.MONTH) + 1);
+			request.setAttribute("year", iYear);
+			request.setAttribute("month", iMonth);
 			request.setAttribute("array_printtable", array_printtable);
 			RequestDispatcher dispatch = request.getRequestDispatcher("update/Table.jsp");
 			dispatch.forward(request,response);
-			
+    		
     	}catch(Exception e){
     		System.out.println("認証失敗");
     		// DB切断
@@ -83,7 +104,7 @@ public class Table extends HttpServlet {
 	 */
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// doGetで処理
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

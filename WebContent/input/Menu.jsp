@@ -15,13 +15,13 @@
 		<p>名前 : <%=sPara.get("sName") %></p>
 		<p>日付 : <%=sPara.get("sCurrentDate") %></p>
 		<br />
-<% 		if(sPara.get("sComeTime").equals("")){		%>
+<% 		if(sPara.get("sComeTime").equals("----/--/-- --:--:--")){		%>
 			<a href="/Attendance/input_SetTime?&sFlag=1">出勤</a>  
 <%		}else{ 		%> 
 			出勤
 <%		} 			%> 	
 		<br />
-<% 		if(sPara.get("sReturnTime").equals("")){	%>
+<% 		if(sPara.get("sReturnTime").equals("----/--/-- --:--:--")){	%>
 			<a href="/Attendance/input_SetTime?sFlag=2">退勤</a>
 <%		}else{ 		%> 
 			退勤

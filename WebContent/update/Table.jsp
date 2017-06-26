@@ -29,7 +29,10 @@
  			<th>曜日</th>
  			<th>出勤時間</th>
  			<th>退勤時間</th>
+ 			<th>休憩時間</th>
+ 			<th>勤務時間</th>
  			<th>変更</th>
+ 			<th>削除</th>
  		</tr>
 <%		for(int i = 1; i < 32; i++){														%>
 <%			iSetFlag = 0;																	%>
@@ -40,7 +43,10 @@
 			 			<td><%=array_printtable.get(j).weekdays %></td>
 			 			<td><%=array_printtable.get(j).cometimes %></td>
 			 			<td><%=array_printtable.get(j).returntimes %></td>
+			 			<td>1</td>
+			 			<td><%=array_printtable.get(j).difftime %>
 			 			<td><a href="/Attendance/update_Change?id=<%=array_printtable.get(j).id%>&year=<%=iYear%>&month=<%=iMonth%>&day=<%=i%>">変更</a></td>
+			 			<td><a href="/Attendance/update_Delete?id=<%=array_printtable.get(j).id%>&year=<%=iYear%>&month=<%=iMonth%>&day=<%=i%>">削除</a></td>
 			 		</tr>
 <%					iSetFlag = 1;															%>
 <%				}																			%>
@@ -66,9 +72,12 @@
 	 			<tr>
 	 				<td><%=i%></td>
 		 			<td><%=sDayOfWeek%></td>
-		 			<td></td>
-		 			<td></td>
+		 			<td>--:--:--</td>
+		 			<td>--:--:--</td>
+		 			<td>0</td>
+		 			<td>--:--:--</td>
 		 			<td><a href="/Attendance/update_Change?id=-1&year=<%=iYear%>&month=<%=iMonth%>&day=<%=i%> ">変更</a></td>
+		 			<td></td>
 		 		</tr>
 
 <%			}																				%>

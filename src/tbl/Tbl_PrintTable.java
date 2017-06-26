@@ -7,4 +7,5 @@ public class Tbl_PrintTable {
 	public String weekdays;
 	public String cometimes;
 	public String returntimes;
+	public String difftime;
 }

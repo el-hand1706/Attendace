@@ -95,6 +95,7 @@ public class SetTime extends HttpServlet {
 			sSql = sSql.concat(" where tbl_account.uid = tbl_attendance.uid "						                );
 			sSql = sSql.concat("   and tbl_account.uid = " + iUid + " "												);
 			sSql = sSql.concat("   and cast(tbl_attendance.created as date) = cast(current_timestamp() as date) "	);
+			sSql = sSql.concat("   and tbl_attendance.delflag = 0 "	                                                );
 			sSql = sSql.concat("; "																				    );
 			// SQL実行
 			rs = MyQuery.selectSql(sSql);
@@ -134,12 +135,12 @@ public class SetTime extends HttpServlet {
 		sPara.put("iFlag","0");
 		sPara.put("sName", tbl_printmenu.name);
 		if(tbl_printmenu.cometime == null){
-			sPara.put("sComeTime", "");
+			sPara.put("sComeTime", "----/--/-- --:--:--");
 		}else{
 			sPara.put("sComeTime", tbl_printmenu.cometime);
 		}
 		if(tbl_printmenu.returntime == null){
-			sPara.put("sReturnTime", "");
+			sPara.put("sReturnTime", "----/--/-- --:--:--");
 		}else{
 			sPara.put("sReturnTime", tbl_printmenu.returntime);
 		}
