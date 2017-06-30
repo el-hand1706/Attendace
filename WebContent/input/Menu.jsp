@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"
     import="java.util.HashMap"%>
 <%
-	HashMap sPara = (HashMap) request.getAttribute("sPara");
+    @SuppressWarnings("unchecked")
+	HashMap<String,String> sPara = (HashMap<String,String>) request.getAttribute("sPara");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

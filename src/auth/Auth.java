@@ -25,6 +25,16 @@ public class Auth extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    @Override
+    public void init() throws ServletException{
+    	System.out.println("auth_init");
+    }
+    
+    @Override
+    public void destroy(){
+    	System.out.println("auth_destroy");
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

@@ -83,7 +83,9 @@ public class Delete extends HttpServlet {
 			request.setAttribute("array_printtable", array_printtable);
 			RequestDispatcher dispatch = request.getRequestDispatcher("update/Table.jsp");
 			dispatch.forward(request,response);
-    		
+			
+			System.out.println("aaa");
+			
     	}catch(Exception e){
     		System.out.println("認証失敗");
     		// DB切断
@@ -91,7 +93,7 @@ public class Delete extends HttpServlet {
     		// セッションを破棄
     		session.invalidate();
     		//　エラーメッセージをセットして認証画面に戻る
-    		request.setAttribute("sErrMsg","SQL発行に失敗しました。 update/Change.java");
+    		request.setAttribute("sErrMsg","SQL発行に失敗しました。 update/Delete.java");
     		request.setAttribute("sAddress","");
     		request.setAttribute("sPassword","");
     		RequestDispatcher dispatch = request.getRequestDispatcher("auth/Auth.jsp");

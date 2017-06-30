@@ -31,6 +31,16 @@ public class Input extends HttpServlet {
         // TODO Auto-generated constructor stub
 		
     }
+    
+    @Override
+    public void init() throws ServletException{
+    	System.out.println("input_init");
+    }
+    
+    @Override
+    public void destroy(){
+    	System.out.println("input_destroy");
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

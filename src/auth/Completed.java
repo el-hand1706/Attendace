@@ -39,7 +39,16 @@ public class Completed extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    
+    @Override
+    public void init() throws ServletException{
+    	System.out.println("completed_init");
+    }
+    
+    @Override
+    public void destroy(){
+    	System.out.println("completed_destroy");
+    }
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

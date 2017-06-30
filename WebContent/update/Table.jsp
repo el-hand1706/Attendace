@@ -5,6 +5,7 @@
 		 import="tbl.Tbl_PrintTable"
          pageEncoding="UTF-8"%>
 <%
+	@SuppressWarnings("unchecked")
 	ArrayList<Tbl_PrintTable> array_printtable 
 	= (ArrayList<Tbl_PrintTable>)request.getAttribute("array_printtable");
 	int iYear = (int)request.getAttribute("year");

@@ -33,6 +33,16 @@ public class Confirm extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    @Override
+    public void init() throws ServletException{
+    	System.out.println("confirm_init");
+    }
+    
+    @Override
+    public void destroy(){
+    	System.out.println("confirm_destroy");
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
